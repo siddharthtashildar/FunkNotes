@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>FunkNotes-{{page}}</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- CSS only -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}">
+
+</head>
+
+<body class="login-register">
+    <div class="container">
+        <header>
+            <a href="/" class="logo">FunkNotes</a>
+            <img  src="{% static 'images/lightmode.svg' %}" alt="Light Mode" id="icon">
+        </header>
+
+        <div class="login--wrapper">
+            {% if page == 'login' %}
+            <form method='post' class="form">
+                {% csrf_token %}
+                <h1>Login</h1>
+                <h4>Login to view and create your notes</h4>
+                <div class="msg">
+                    {% if page == 'login' %}
+                    {% for message in messages %}
+                    <p id="messages">{{message}}</p>
+                    {% endfor %}
+                    {% else %}
+                    {{form.errors}}
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <!-- <label for="exampleInputEmail1" class="form-label">Email</label> -->
+                    <input type="text" class="form-control" name="email" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter Email...">
+                </div>
+                <div class="mb-3">
+                    <!-- <label for="exampleInputPassword1" class="form-label">Password</label> -->
+                    <input type="password" class="form-control" name="password" id="exampleInputPassword1" placeholder="Enter Password...">
+                </div>
+                <p class="forg-pass"><a href="{% url 'reset_password' %}"> forgot password?</a></p>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p>Don't have an account?<a href="{% url 'register' %}">Register here!</a></p>
+            </form>
+            {% else %}
+            <form method='post'>
+                <h1>Register</h1>
+                <div class="msg">
+                    {% if page == 'login' %}
+                    {% for message in messages %}
+                    <p id="messages">{{message}}</p>
+                    {% endfor %}
+                    {% else %}
+                    {{form.errors}}
+                    {% endif %}
+                </div>
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <!-- <label for="exampleInputPassword1" class="form-label">{{field.label}}</label> -->
+                    {{field}}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Register</button>
+                <p>Already have an account?<a href="{% url 'login' %}">Login here!</a></p>
+
+            </form>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+
+        // check for saved 'darkMode' in localStorage
+        let darkMode = localStorage.getItem('darkMode'); 
+
+        const darkModeToggle = document.getElementById("icon");
+        var sidebar = document.getElementById("sidebar");
+        var downarrow = document.getElementById("downarrow")
+
+        const enableDarkMode = () => {
+
+        document.body.classList.add('dark-mode');
+        icon.src="{% static 'images/darkmode.svg' %}"
+        localStorage.setItem('darkMode', 'enabled');
+        }
+
+        const disableDarkMode = () => {
+
+        document.body.classList.remove('dark-mode');
+        icon.src="{% static 'images/lightmode.svg' %}"
+        localStorage.setItem('darkMode', null);
+        }
+ 
+        // If the user already visited and enabled darkMode
+        // start things off with it on
+        if (darkMode === 'enabled') {
+            enableDarkMode();
+        }
+
+        // When someone clicks the button
+        darkModeToggle.addEventListener('click', () => {
+        // get their darkMode setting
+        darkMode = localStorage.getItem('darkMode'); 
+  
+        // if it not current enabled, enable it
+        if (darkMode !== 'enabled') {
+            enableDarkMode();
+        // if it has been enabled, turn it off  
+        } else {  
+            disableDarkMode(); 
+        }
+        });
+    </script>
+</body>
+
+</html>
+

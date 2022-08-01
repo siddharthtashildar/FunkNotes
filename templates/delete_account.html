@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>FunkNotes-verify</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- CSS only -->
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}">
+
+</head>
+
+<body class="Verify">
+    <div class="layout__boxTitle">
+        <a href="{{request.META.HTTP_REFERER}}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/>
+            </svg>
+            <span>Back</span>
+        </a>
+        
+    </div>
+    <div class="del-acc-modal">
+        <div class="form-layout">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="error">
+                    <p>{{msg}}</p>
+                </div>
+                <div class="password-div">
+                    <p>Enter your password to verify its you</p>
+                    <input type="password" class="form-control" name="inputpassword" placeholder="Password" >
+                </div>
+                <div class="confirm-text-div">
+                    <p>Type 'Yes! delete my account' below to confirm</p>
+                    <input type="text" class="form-control" name="inputconfirmtext" >
+                </div>
+<!--                 <div class="dl-acc-div">
+                    <input type="checkbox" id="downloadcheckbox" name="downloadcheckbox" value="yesdownload" >
+                    <p>Download all your notes as .zip file</p>
+                </div> -->
+                <div class="for__group">
+                    <button class="done-btn--main" type="submit">Delete</button>
+                </div>
+            </form>   
+        </div>     
+    </div>
+    <script>
+
+        let darkMode = localStorage.getItem('darkMode');
+
+        const enableDarkMode = () => {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'enabled');
+        }
+
+        const disableDarkMode = () => {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', null);
+        }
+
+
+        if (darkMode === 'enabled') {
+        enableDarkMode();
+        }
+
+
+        darkModeToggle.addEventListener('onload', () => {
+            darkMode = localStorage.getItem('darkMode'); 
+            if (darkMode !== 'enabled') {
+        enableDarkMode();
+    } else {  
+        disableDarkMode(); 
+    }
+    });
+
+    </script>
+</body>

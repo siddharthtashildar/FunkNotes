@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+
+{% load static %}
+
+{% block content %}
+<div>
+    <section class="hero">
+        <div class="container">
+            <div class="left-col">
+                {% if request.user.is_authenticated %}
+                <h1>Welcome {{request.user}}!</h1>
+                {% else %}
+                <h1>Welcome!</h1>
+                {% endif %}
+                <p>FunkNotes is a completely free notes saving website, where you can can save unlimited notes. You can use it from any device and to that all you need to do is just create a account and login on multiple devices for free.Have a great day!</p>
+                <a href="{% url 'create' %}"><span>Create Note</span></a>
+            </div>
+            <div class="right-col">
+                <img src="{% static 'images/hero-img.svg' %}" alt="Man creating Notes">
+            </div>
+        </div>
+    </section>
+    <section class="recent-notes">
+        <div class="container">
+            <h2>Recent Notes:</h2>
+            <div class="recent">
+                {% if request.user.is_authenticated %}
+                <ul>
+                    {% for note in note %}
+                    <li>
+                        <a href="/note/{{note.noteID}}">
+                            <h3>{{note.name}}</h3>
+                            <p>{{note.created}}</p>
+                            <p class="upd">last updated-{{note.updated}}</p>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="log-msg">Login to view your notes</p>
+                {% endif %}
+            </div>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'notes' %}" class="view-more">View All</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="view-more">Login</a>
+            {% endif %}
+        </div>
+    </section>
+    <section class="features">
+        <h1>Why use FunkNotes?</h1>
+        <div class="First-container">
+            <div class="left-col">
+                <h2>Free to use</h2>
+                <p>FunkNote is Free for all user around the 
+                    World. You can use it as much as you want 
+                    without paying a single dollar.</p>
+            </div>
+            <div class="right-col">
+                <img src="{% static 'images/free.svg' %}" alt="">
+            </div>
+        </div>
+        <div class="second-container">
+            <div class="left-col">
+                <h2>Cross Platform</h2>
+                <p>FunkNote is a cross platform web app.
+                    You can use it on phone, tablet, laptop,
+                    computers etc from anywhere on the
+                    planet.</p>
+            </div>
+            <div class="right-col">
+                <img src="{% static 'images/cross-platform.svg' %}" alt="Multiple devices">
+            </div>
+        </div>
+        <div class="third-container">
+            <div class="left-col">
+                <h2>Easy to use</h2>
+                <p>FunkNote is very easy to use. It has very
+                    basic UI and is made for everyone. It can
+                    be used by kids and adults. </p>
+            </div>
+            <div class="right-col">
+                <img src="{% static 'images/easy.svg' %}" alt="Happy girl">
+            </div>
+        </div>
+        <h3>Thanks For Visting!</h3>
+        <p class="helptxt">For help DM on twitter or discord: SidTheMiner#4664</p>
+    </section>
+</div>
+
+{% endblock content %}
